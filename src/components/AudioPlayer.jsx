@@ -16,6 +16,8 @@ export default function AudioPlayer({ track }) {
   const audio = useRef(null);
   const {
     handlePlay,
+    handleNext,
+    handlePrev,
     play,
     handlePause,
     currentTime,
@@ -23,6 +25,7 @@ export default function AudioPlayer({ track }) {
     duracionn,
     actualTime,
     handlePosition,
+    currentTrackName,
   } = useAudioPlayer({ audio, url: track?.url });
 
   const progressPercentage = duracionn ? (actualTime / duracionn) * 100 : 0; // Evitar división por cero
@@ -70,7 +73,9 @@ export default function AudioPlayer({ track }) {
               <FaRandom size={25} fill="white" />
             </div>
             <div className="cursor-pointer hidden lg:block">
-              <IoIosSkipBackward size={25} fill="white" />
+              <button onClick={handlePrev}>
+                <IoIosSkipBackward size={25} fill="white" />
+              </button>
             </div>
             {!play ? (
               <div
@@ -88,7 +93,9 @@ export default function AudioPlayer({ track }) {
               </div>
             )}
             <div className="cursor-pointer hidden lg:block ">
-              <IoIosSkipForward size={25} fill="white" />
+              <button onClick={handleNext}>
+                <IoIosSkipForward size={25} fill="white" />
+              </button>
             </div>
             <div className="cursor-pointer lg:block hidden ">
               <CiRepeat size={25} fill="white" />

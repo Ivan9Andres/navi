@@ -13,11 +13,11 @@ export default function HomePage() {
 
   const { setUser, user } = useUserStore();
 
-  const handleSelectTrack = (url) => {
+  const handleSelectTrack = (track) => {
     setSelectedTrack({
-      url,
-      name: "Canción", // Puedes ajustar esto según tus datos
-      artist: "Artista", // Puedes ajustar esto según tus datos
+      url: track.url,
+      name: track.album, // Puedes ajustar esto según tus datos
+      artist: track.nombre, // Puedes ajustar esto según tus datos
     });
   };
 
@@ -39,7 +39,7 @@ export default function HomePage() {
     }
       {user !== null ? (
         <>
-          <Albun onSelectTrack={handleSelectTrack} />
+          <Albun onSelectTrack={handleSelectTrack} track={selectedTrack}/>
           {selectedTrack && <AudioPlayer track={selectedTrack} />}
         </>
       ) : (

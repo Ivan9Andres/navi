@@ -11,7 +11,7 @@ import useUserStore from "@/store/userStore";
 import { getAuth, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
-export default function Album({ onSelectTrack }) {
+export default function Album({ onSelectTrack, track }) {
   const [albums, setAlbums] = useState([]);
   const { user, clearUser } = useUserStore();
   const router = useRouter();
@@ -116,7 +116,9 @@ export default function Album({ onSelectTrack }) {
                   <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                 </svg>
               </div>
-              <span className="text-gray-700 font-medium">Favourite tracks</span>
+              <span className="text-gray-700 font-medium">
+                Favourite tracks
+              </span>
             </div>
 
             <div className="flex items-center gap-2">
@@ -136,7 +138,9 @@ export default function Album({ onSelectTrack }) {
                   />
                 </svg>
               </div>
-              <span className="text-gray-700 font-medium">Create a playlist</span>
+              <span className="text-gray-700 font-medium">
+                Create a playlist
+              </span>
             </div>
           </div>
         </aside>
@@ -149,9 +153,12 @@ export default function Album({ onSelectTrack }) {
               <div
                 key={album.id}
                 className="bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition p-4 cursor-pointer"
-                onClick={() => onSelectTrack(album.url)}
+                onClick={() => onSelectTrack(album)}
               >
-                <h3 className="text-center font-medium text-gray-700">{album.nombre}</h3>
+                <h3 className="text-center font-medium text-gray-700">
+                  {" "}
+                  {album?.nombre === track?.artist ? "🎧" : ""} {album.nombre}
+                </h3>
               </div>
             ))}
           </div>
