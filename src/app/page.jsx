@@ -7,7 +7,7 @@ import useUserStore from "@/store/userStore";
 import Albun from "@/components/Albun";
 
 
-export default function Home() {
+export default function HomePage() {
   const [selectedTrack, setSelectedTrack] = useState(null);
   const [loading, setLoading] = useState(true);
 
