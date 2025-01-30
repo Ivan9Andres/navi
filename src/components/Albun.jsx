@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa"; // Corazón vacío y lleno
 import { GoHomeFill } from "react-icons/go";
 import { MdExplore } from "react-icons/md";
 import { FiSearch, FiBell } from "react-icons/fi";
@@ -10,9 +10,11 @@ import { db } from "../firebase/config";
 import useUserStore from "@/store/userStore";
 import { getAuth, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import { IoExitOutline } from "react-icons/io5";
 
 export default function Album({ onSelectTrack }) {
   const [albums, setAlbums] = useState([]);
+  const [favorites, setFavorites] = useState([]); // Estado para favoritos
   const { user, clearUser } = useUserStore();
   const router = useRouter();
 
@@ -29,8 +31,16 @@ export default function Album({ onSelectTrack }) {
     fetchAlbums();
   }, []);
 
-  const nickName = user?.email?.toUpperCase().slice(0, 2);
+  // Alternar favoritos
+  const toggleFavorite = (albumId) => {
+    setFavorites((prevFavorites) =>
+      prevFavorites.includes(albumId)
+        ? prevFavorites.filter((id) => id !== albumId) // Quitar de favoritos
+        : [...prevFavorites, albumId] // Agregar a favoritos
+    );
+  };
 
+  const nickName = user?.email?.toUpperCase().slice(0, 2);
   const auth = getAuth();
 
   const handleLogout = async () => {
@@ -65,9 +75,9 @@ export default function Album({ onSelectTrack }) {
           </div>
           <button
             onClick={handleLogout}
-            className="bg-red-500 text-white px-4 py-2 rounded-md font-medium hover:bg-red-600 transition"
+            className="bg-purple-500 text-white px-4 py-2 rounded-md font-medium hover:bg-red-600 transition"
           >
-            Cerrar Sesión
+            <IoExitOutline />
           </button>
         </div>
       </header>
@@ -107,14 +117,7 @@ export default function Album({ onSelectTrack }) {
             <h2 className="text-lg font-bold mb-4">Playlists</h2>
             <div className="flex items-center gap-2 mb-3">
               <div className="w-8 h-8 bg-red-200 flex items-center justify-center rounded-md">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  className="w-5 h-5 text-red-500"
-                >
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                </svg>
+                <FaHeart className="text-red-500 w-5 h-5" />
               </div>
               <span className="text-gray-700 font-medium">Favourite tracks</span>
             </div>
@@ -148,10 +151,27 @@ export default function Album({ onSelectTrack }) {
             {albums.map((album) => (
               <div
                 key={album.id}
-                className="bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition p-4 cursor-pointer"
+                className="bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition p-4 cursor-pointer relative"
                 onClick={() => onSelectTrack(album.url)}
               >
-                <h3 className="text-center font-medium text-gray-700">{album.nombre}</h3>
+                {/* Botón de favorito */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation(); // Evitar que haga clic en el álbum
+                    toggleFavorite(album.id);
+                  }}
+                  className="absolute top-2 right-2 text-gray-500 hover:text-red-500 transition"
+                >
+                  {favorites.includes(album.id) ? (
+                    <FaHeart className="text-red-500 w-5 h-5" />
+                  ) : (
+                    <FaRegHeart className="w-5 h-5" />
+                  )}
+                </button>
+
+                <h3 className="text-center font-medium text-gray-700">
+                  {album.nombre}
+                </h3>
               </div>
             ))}
           </div>
