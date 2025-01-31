@@ -150,7 +150,7 @@ export default function Album({ onSelectTrack, track }) {
 
         {/* Lista de álbumes */}
         <main className="flex-1 p-8 overflow-y-auto">
-          <h1 className="text-xl font-bold mb-4">Albums</h1>
+          <h1 className="text-xl font-bold mb-4">Musia</h1>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 text-black">
             {albums.map((album) => (
               <div

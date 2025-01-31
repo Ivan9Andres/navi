@@ -37,7 +37,7 @@ export default function Registro() {
             <div className="min-h-screen bg-black text-white flex flex-col justify-center items-center">
                 <div className="text-center mb-8">
                     {/* Logo */}
-                    <h1 className="text-4xl font-bold mb-4">Ingresa tu correo <br /> electronico</h1>
+                    <h1 className="text-4xl font-bold mb-4">Entrar</h1>
                 </div>
                 {errorSignIn !== '' && (<h6 className="mb-4">{errorSignIn}</h6>)}
                 <div className="bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-sm">
